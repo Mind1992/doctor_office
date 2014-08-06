@@ -21,4 +21,13 @@ describe 'Specialty' do
     expect(Specialty.all).to eq [test_specialty]
   end
 
+  it "lets you search by name and get the id" do
+    test_sp = Specialty.new({:name => "surgery"})
+    test_sp_2 = Specialty.new({:name => "plastic"})
+    test_sp.save
+    test_sp_2.save
+    expect(Specialty.search_by_name('surgery')).to eq test_sp.id
+  end
+
+
 end

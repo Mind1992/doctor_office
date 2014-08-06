@@ -1,3 +1,4 @@
+require 'pry'
 class Insurance
 
   attr_accessor(:id,:name,:doctor_id)
@@ -14,7 +15,7 @@ class Insurance
     results.each do |result|
       name = result['name']
       id = result['id'].to_i
-      insurances << Doctor.new({:name => name, :id => id })
+      insurances << Insurance.new({:name => name, :id => id })
     end
     insurances
   end
@@ -26,5 +27,9 @@ class Insurance
 
   def ==(another_insurance)
     self.name == another_insurance.name && self.id == another_insurance.id
+  end
+
+  def self.search_by_name(name)
+    Insurance.all.detect { |company| company.name == name }.id
   end
 end

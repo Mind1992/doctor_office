@@ -27,4 +27,8 @@ class Specialty
     self.name == another_specialty.name && self.id == another_specialty.id
   end
 
+  def self.search_by_name(name)
+    Specialty.all.detect { |specialty| specialty.name == name }.id
+  end
+
 end

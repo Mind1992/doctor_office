@@ -34,6 +34,4 @@ class Doctor
   def ==(another_doctor)
     self.name == another_doctor.name && self.id == another_doctor.id
   end
-
-
 end

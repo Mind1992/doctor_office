@@ -17,7 +17,7 @@ describe 'Patient' do
   end
 
   it 'lets you save patients to the database' do
-    test_patient = Patient.new({:name => "Mr. Jones"})
+    test_patient = Patient.new({:name => "Bob", :birthdate => '1900-01-01', :doctor_id => 1 })
     test_patient.save
     expect(Patient.all).to eq [test_patient]
   end

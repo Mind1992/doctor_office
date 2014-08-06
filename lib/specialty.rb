@@ -31,4 +31,7 @@ class Specialty
     Specialty.all.detect { |specialty| specialty.name == name }.id
   end
 
+  # def self.search_by_id(id)
+  #   Specialty.all.detect { |specialty| specialty.id == id }.name
+  # end
 end

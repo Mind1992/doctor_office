@@ -1,4 +1,5 @@
 require 'pg'
+require 'pry'
 
 DB = PG.connect({:dbname => 'doctors_office'})
 
@@ -27,11 +28,19 @@ class Doctor
   end
 
   def save
+
     results = DB.exec("INSERT INTO doctors (name, insurance_id, specialty_id) VALUES ('#{@name}', #{@insurance_id}, #{@specialty_id}) RETURNING id;")
+
     @id = results.first['id'].to_i
   end
 
   def ==(another_doctor)
     self.name == another_doctor.name && self.id == another_doctor.id
   end
+
+  def self.search_by_name(name)
+    Doctor.all.detect { |doctor| doctor.name == name }.id
+  end
+
+
 end

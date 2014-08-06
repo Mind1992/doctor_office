@@ -18,9 +18,7 @@ describe "Doctor" do
 
   it 'lets you save doctors to the database' do
     doctor = Doctor.new({:name => "Dr. Doom", :insurance_id => 1, :specialty_id => 2})
-   # binding.pry
     doctor.save
-    #binding.pry
     expect(Doctor.all).to eq [doctor]
   end
 
@@ -35,7 +33,23 @@ describe "Doctor" do
     doctor1.save
     expect(doctor1.id).to be_an_instance_of Fixnum
   end
-end
 
+  it "lets you search by name and get the id" do
+    test_doctor = Doctor.new({:name => "Dr. Doom",:insurance_id => 2, :specialty_id => 1})
+    test_doctor_2 = Doctor.new({:name => "Dr. Death",:insurance_id => 1, :specialty_id => 1})
+    test_doctor.save
+    test_doctor_2.save
+    expect(Doctor.search_by_name('Dr. Doom')).to eq test_doctor.id
+  end
+
+  it "lets you search by specialty and get the special doctors" do
+    test_specialty = Specialty.new({:id => 1, :name => "surgery"})
+    test_doctor = Doctor.new({:name => "Dr. Doom",:insurance_id => 2, :specialty_id => 1})
+    test_doctor_2 = Doctor.new({:name => "Dr. Death",:insurance_id => 1, :specialty_id => 2})
+    test_doctor.save
+    test_doctor_2.save
+    expect(Doctor.search_for_specialist(1)).to eq test_doctor.name
+  end
+end
 
 

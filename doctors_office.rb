@@ -12,12 +12,16 @@ def main_menu
     puts "1: add specialty"
     puts "2. add insurance company"
     puts "3: add doctor"
+    puts "4: add patient"
+    puts "5: find doctors by specialty"
     puts "10: exit"
     input = gets.chomp
     case input
       when '1' then add_specialty
       when '2' then add_insurance
       when '3' then add_doctor
+      when '4' then add_patient
+      when '5' then find_by_specialty
       when '10' then exit
     end
   end
@@ -61,4 +65,24 @@ def add_doctor
   end
 end
 
+def add_patient
+  p "Name: "; name = gets.chomp
+  p "Birth date: "; birthdate = gets.chomp
+  p "Doctors' name: "; doctor_name = gets.chomp
+  doctor_id = Doctor.search_by_name(doctor_name)
+  new_patient = Patient.new({:name => name, :birthdate => birthdate, :doctor_id => doctor_id})
+  new_patient.save
+end
+
+def find_by_specialty
+  p "Specialty: "; input_specialty = gets.chomp
+  specialist_id = Specialty.search_by_name(input_specialty)
+  array =[]
+  Doctor.all.each do |doctor|
+    if doctor.specialty_id == specialist_id
+      array << doctor.name
+    end
+    puts array
+  end
+end
 main_menu

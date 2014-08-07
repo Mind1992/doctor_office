@@ -67,4 +67,14 @@ class Doctor
     result = DB.exec("SELECT COUNT (*) FROM patients WHERE doctor_id = #{id};")
     result.first['count'].to_i
   end
+
+  def self.sum(name, from, to)
+    id = Doctor.search_by_name(name)
+    result = DB.exec("SELECT SUM (cost) FROM appointments WHERE doctor_id = #{id} AND date BETWEEN '#{from}' AND '#{to}';")
+    result.first['sum'].to_i
+
+  end
+
+
+
 end

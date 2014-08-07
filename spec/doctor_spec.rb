@@ -76,5 +76,16 @@ describe "Doctor" do
     test_patient2.save
     expect(Doctor.count_patients("Dr. Doom")).to eq 2
   end
+
+
+  it 'lets you add cost of appointments' do
+    test_doctor = Doctor.new({:id => 1, :name => "Dr. Doom", :insurance_id => 1, :specialty_id => 1})
+    test_doctor.save
+    test_appointment = Appointment.new({:date => "2014-08-10 00:00:00", :cost => 500, :doctor_id => test_doctor.id , :patient_id => 1 })
+    test_appointment.save
+    test_appointment1 = Appointment.new({:date => "2014-08-18 00:00:00", :cost => 400, :doctor_id => test_doctor.id , :patient_id => 1 })
+    test_appointment1.save
+    expect(Doctor.sum("Dr. Doom","2014-08-09 00:00:00","2014-08-19 00:00:00")).to eq 900
+  end
 end
 

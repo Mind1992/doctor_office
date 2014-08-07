@@ -33,4 +33,6 @@ class Appointment
   def ==(another_appointment)
     self.date == another_appointment.date && self.id == another_appointment.id
   end
+
+
 end

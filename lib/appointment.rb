@@ -1,3 +1,4 @@
+
 class Appointment
 
   attr_accessor(:id, :date, :cost, :doctor_id, :patient_id)
@@ -19,9 +20,17 @@ class Appointment
       cost = result['cost'].to_i
       doctor_id = result['doctor_id']
       patient_id = result['patient_id']
-      appointments << Appointmnet.new({:date => date, :id => id, :cost => cost, :doctor_id => doctor_id, :patient_id => patient_id })
+      appointments << Appointment.new({:id => id, :date => date, :cost => cost, :doctor_id => doctor_id, :patient_id => patient_id })
     end
     appointments
   end
 
+  def save
+    results = DB.exec("INSERT INTO appointments (date, cost, doctor_id, patient_id) VALUES ('#{@date}', #{@cost}, #{@doctor_id}, #{patient_id}) RETURNING id;")
+    @id = results.first['id'].to_i
+  end
+
+  def ==(another_appointment)
+    self.date == another_appointment.date && self.id == another_appointment.id
+  end
 end

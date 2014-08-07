@@ -29,4 +29,7 @@ class Patient
     self.name == another_patient.name && self.id == another_patient.id
   end
 
+  def self.search_by_name(name)
+    Patient.all.detect { |patient| patient.name == name }.id
+  end
 end

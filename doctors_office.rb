@@ -3,6 +3,7 @@ require './lib/doctor'
 require './lib/specialty'
 require './lib/patient'
 require './lib/insurance'
+require './lib/appointment'
 require 'pry'
 
 PG.connect({:dbname => 'doctors_office'})
@@ -21,6 +22,7 @@ def main_menu
     puts "9: update doctors insurance"
     puts "10: delete doctor"
     puts "11: count patients for a specific doctor"
+    puts "12: set an appointment"
     puts "15: exit"
     input = gets.chomp
     case input
@@ -35,6 +37,7 @@ def main_menu
       when '9' then update_insurance
       when '10' then delete_doctor
       when '11' then count_patients
+      when '12' then set_appointment
       when '15' then exit
     end
   end
@@ -70,12 +73,7 @@ def add_doctor
   specialty_id = Specialty.search_by_name(specialty)
   new_doctor = Doctor.new({:name => name,:insurance_id => insurance_id, :specialty_id => specialty_id})
   new_doctor.save
-  Doctor.all.each do |doctor|
-    puts doctor.name
-    puts doctor.insurance_id
-    puts doctor.specialty_id
-    puts doctor.id
-  end
+  puts "New doctor #{new_doctor.name} was added"
 end
 
 def add_patient
@@ -168,5 +166,17 @@ def count_patients
   name = gets.chomp
   count = Doctor.count_patients(name)
   puts count
+end
+
+def set_appointment
+  p "Doctor name: "; doctor_name = gets.chomp
+  p "Patient name: "; patient_name = gets.chomp
+  p "Date: "; date = gets.chomp
+  p "Cost: "; cost = gets.chomp
+  doctor_id = Doctor.search_by_name(doctor_name)
+  patient_id = Patient.search_by_name(patient_name)
+  new_appointment = Appointment.new({:date => date,:cost => cost, :doctor_id => doctor_id, :patient_id => patient_id})
+  new_appointment.save
+  puts "New appointment was added"
 end
 main_menu

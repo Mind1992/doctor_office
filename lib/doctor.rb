@@ -55,4 +55,10 @@ class Doctor
     DB.exec("UPDATE doctors SET insurance_id = #{new_insurance_id} WHERE id = #{found_id};")
     self.insurance_id = new_insurance_id
   end
+
+  def delete_doctor(name)
+    doctor = Doctor.search_by_name(name)
+    DB.exec("Delete FROM doctors WHERE id = #{doctor};")
+    Doctor.all.delete(Doctor.all.first)
+  end
 end

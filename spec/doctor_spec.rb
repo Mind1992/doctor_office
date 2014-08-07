@@ -53,9 +53,18 @@ describe "Doctor" do
    it "lets you update a doctor's insurance" do
     test_doctor = Doctor.new({:name => "Dr. Doom",:insurance_id => 20, :specialty_id => 1})
     test_doctor.save
-    test_insurance = Insurance.new({:name => "Providence"})
+    test_insurance = Insurance.new({:id => 1, :name => "Providence"})
     test_doctor.update_insurance("Dr. Doom", test_insurance.id)
     expect(test_doctor.insurance_id).to eq test_insurance.id
+  end
+
+  it "lets you delete a doctor" do
+    test_doctor = Doctor.new({:name => "Dr. Doom",:insurance_id => 2, :specialty_id => 1})
+    test_doctor_2 = Doctor.new({:name => "Dr. Death",:insurance_id => 1, :specialty_id => 1})
+    test_doctor.save
+    test_doctor_2.save
+    test_doctor.delete_doctor("Dr. Doom")
+    expect(Doctor.all).to eq [test_doctor_2]
   end
 
 end

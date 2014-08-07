@@ -17,8 +17,9 @@ def main_menu
     puts "6: find doctors by insurance"
     puts "7: list all doctors"
     puts "8: update doctors' names"
-    puts "9. update doctors insurance"
-    puts "10: exit"
+    puts "9: update doctors insurance"
+    puts "10: delete doctor"
+    puts "15: exit"
     input = gets.chomp
     case input
       when '1' then add_specialty
@@ -30,7 +31,8 @@ def main_menu
       when '7' then list_doctors
       when '8' then update_doctor
       when '9' then update_insurance
-      when '10' then exit
+      when '10' then delete_doctor
+      when '15' then exit
     end
   end
 end
@@ -146,5 +148,14 @@ def list_insurance
   Insurance.all.each do |name|
     puts name.name
   end
+end
+
+def delete_doctor
+  list_doctors
+  puts "Which doctor do you want to remove?"
+  name = gets.chomp
+  doctor_object = Doctor.search_for_object(name)
+  doctor_object.delete_doctor(name)
+  list_doctors
 end
 main_menu

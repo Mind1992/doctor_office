@@ -23,6 +23,7 @@ def main_menu
     puts "10: delete doctor"
     puts "11: count patients for a specific doctor"
     puts "12: set an appointment"
+    puts "13: sum a doctor's billing"
     puts "15: exit"
     input = gets.chomp
     case input
@@ -38,6 +39,7 @@ def main_menu
       when '10' then delete_doctor
       when '11' then count_patients
       when '12' then set_appointment
+      when '13' then sum_billing
       when '15' then exit
     end
   end
@@ -178,5 +180,14 @@ def set_appointment
   new_appointment = Appointment.new({:date => date,:cost => cost, :doctor_id => doctor_id, :patient_id => patient_id})
   new_appointment.save
   puts "New appointment was added"
+end
+
+def sum_billing
+  p "Doctor name: "; doctor_name = gets.chomp
+  p "From: "; from = gets.chomp
+  p "To: "; to = gets.chomp
+  sum = Doctor.sum(doctor_name, from, to)
+  puts sum
+
 end
 main_menu

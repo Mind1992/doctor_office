@@ -3,6 +3,7 @@ require './lib/doctor'
 require './lib/specialty'
 require './lib/patient'
 require './lib/insurance'
+require 'pry'
 
 PG.connect({:dbname => 'doctors_office'})
 
@@ -19,6 +20,7 @@ def main_menu
     puts "8: update doctors' names"
     puts "9: update doctors insurance"
     puts "10: delete doctor"
+    puts "11: count patients for a specific doctor"
     puts "15: exit"
     input = gets.chomp
     case input
@@ -32,6 +34,7 @@ def main_menu
       when '8' then update_doctor
       when '9' then update_insurance
       when '10' then delete_doctor
+      when '11' then count_patients
       when '15' then exit
     end
   end
@@ -157,5 +160,13 @@ def delete_doctor
   doctor_object = Doctor.search_for_object(name)
   doctor_object.delete_doctor(name)
   list_doctors
+end
+
+def count_patients
+  list_doctors
+  puts "Choose the doctor?"
+  name = gets.chomp
+  count = Doctor.count_patients(name)
+  puts count
 end
 main_menu

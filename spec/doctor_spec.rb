@@ -67,5 +67,14 @@ describe "Doctor" do
     expect(Doctor.all).to eq [test_doctor_2]
   end
 
+  it "shows you the number of patients a doctor has" do
+    test_doctor = Doctor.new({:name => "Dr. Doom",:insurance_id => 2, :specialty_id => 1})
+    test_doctor.save
+    test_patient = Patient.new({:name => "Bob", :birthdate => '1900-01-01', :doctor_id => test_doctor.id })
+    test_patient2 = Patient.new({:name => "Josh", :birthdate => '1924-05-03', :doctor_id => test_doctor.id })
+    test_patient.save
+    test_patient2.save
+    expect(Doctor.count_patients("Dr. Doom")).to eq 2
+  end
 end
 

@@ -58,7 +58,13 @@ class Doctor
 
   def delete_doctor(name)
     doctor = Doctor.search_by_name(name)
-    DB.exec("Delete FROM doctors WHERE id = #{doctor};")
+    DB.exec("DElETE FROM doctors WHERE id = #{doctor};")
     Doctor.all.delete(Doctor.all.first)
+  end
+
+  def self.count_patients(name)
+    id = Doctor.search_by_name(name)
+    result = DB.exec("SELECT COUNT (*) FROM patients WHERE doctor_id = #{id};")
+    result.first['count'].to_i
   end
 end

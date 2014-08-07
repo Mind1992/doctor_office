@@ -22,4 +22,13 @@ describe 'Patient' do
     expect(Patient.all).to eq [test_patient]
   end
 
+  it "lets you search for a patients information by name" do
+    test_patient = Patient.new({:id => 1, :name => "Bob", :birthdate => '1900-01-01', :doctor_id => 1 })
+    test_patient.save
+    test_doctor = Doctor.new({:id => 1, :name => "Dr. Doom", :insurance_id => 1, :specialty_id => 1})
+    test_doctor.save
+    test_appointment = Appointment.new({:id => 1, :date => "2014-08-10 00:00:00", :cost => 500, :doctor_id => test_doctor.id, :patient_id => test_patient.id })
+    test_appointment.save
+    expect(Patient.search("Bob")).to eq ["Dr. Doom","2014-08-10 00:00:00", 500]
+  end
 end

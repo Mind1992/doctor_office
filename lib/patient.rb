@@ -1,3 +1,6 @@
+require 'pg'
+require 'pry'
+
 class Patient
 
   attr_accessor(:id, :name, :birthdate, :doctor_id)
@@ -32,4 +35,17 @@ class Patient
   def self.search_by_name(name)
     Patient.all.detect { |patient| patient.name == name }.id
   end
+
+  def self.search(name)
+    array = []
+    id = Patient.search_by_name(name)
+    result = DB.exec("SELECT * FROM appointments WHERE patient_id = #{id};")
+    doctor_id = result.first['doctor_id']
+    doctor_name = DB.exec("SELECT * FROM doctors WHERE id = #{doctor_id}")
+    array << doctor_name.first['name']
+    array << result.first['date']
+    array << result.first['cost'].to_i
+    array
+  end
+
 end

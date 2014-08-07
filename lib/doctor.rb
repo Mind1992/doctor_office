@@ -28,9 +28,7 @@ class Doctor
   end
 
   def save
-
     results = DB.exec("INSERT INTO doctors (name, insurance_id, specialty_id) VALUES ('#{@name}', #{@insurance_id}, #{@specialty_id}) RETURNING id;")
-
     @id = results.first['id'].to_i
   end
 
@@ -42,5 +40,14 @@ class Doctor
     Doctor.all.detect { |doctor| doctor.name == name }.id
   end
 
+  def update_name(new_name, old_name)
+   found_id = Doctor.search_by_name(old_name)
+   DB.exec("UPDATE doctors SET name = '#{new_name}' WHERE id = #{found_id};")
+   self.name = new_name
+  end
+
+  def self.search_for_object(name)
+    Doctor.all.detect { |doctor| doctor.name == name }
+  end
 
 end

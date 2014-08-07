@@ -42,13 +42,12 @@ describe "Doctor" do
     expect(Doctor.search_by_name('Dr. Doom')).to eq test_doctor.id
   end
 
-  it "lets you search by specialty and get the special doctors" do
-    test_specialty = Specialty.new({:id => 1, :name => "surgery"})
+  it "lets you update a doctor's name" do
     test_doctor = Doctor.new({:name => "Dr. Doom",:insurance_id => 2, :specialty_id => 1})
-    test_doctor_2 = Doctor.new({:name => "Dr. Death",:insurance_id => 1, :specialty_id => 2})
     test_doctor.save
-    test_doctor_2.save
-    expect(Doctor.search_for_specialist(1)).to eq test_doctor.name
+    test_doctor.update_name("Dr. Smile", "Dr. Doom")
+    expect(test_doctor.name).to eq "Dr. Smile"
+    expect(Doctor.all.first.name).to eq "Dr. Smile"
   end
 end
 

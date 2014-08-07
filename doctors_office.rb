@@ -17,6 +17,7 @@ def main_menu
     puts "6: find doctors by insurance"
     puts "7: list all doctors"
     puts "8: update doctors' names"
+    puts "9. update doctors insurance"
     puts "10: exit"
     input = gets.chomp
     case input
@@ -28,6 +29,7 @@ def main_menu
       when '6' then find_by_insurance
       when '7' then list_doctors
       when '8' then update_doctor
+      when '9' then update_insurance
       when '10' then exit
     end
   end
@@ -120,5 +122,29 @@ def update_doctor
   doctor_object = Doctor.search_for_object(old_name)
   doctor_object.update_name(new_name, old_name)
   list_doctors
+end
+
+def update_insurance
+  list_doctors
+  puts "Whose insurance do you want to change?"
+  name = gets.chomp
+  doctor_object = Doctor.search_for_object(name)
+  puts "Current insurance for #{doctor_object.name} is #{doctor_object.insurance_id}"
+  list_insurance
+  puts "What insurance do you want to substitute to?"
+  new_insurance = gets.chomp
+  new_insurance_id = Insurance.search_by_name(new_insurance)
+  doctor_object.update_insurance(name, new_insurance_id)
+  puts "*** Doctors ***"
+  Doctor.all.each do |doctor|
+    puts doctor.name + " " + doctor.insurance_id.to_s
+  end
+end
+
+def list_insurance
+   puts "*** Insurance ***"
+  Insurance.all.each do |name|
+    puts name.name
+  end
 end
 main_menu

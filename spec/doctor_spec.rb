@@ -49,6 +49,14 @@ describe "Doctor" do
     expect(test_doctor.name).to eq "Dr. Smile"
     expect(Doctor.all.first.name).to eq "Dr. Smile"
   end
-end
 
+   it "lets you update a doctor's insurance" do
+    test_doctor = Doctor.new({:name => "Dr. Doom",:insurance_id => 20, :specialty_id => 1})
+    test_doctor.save
+    test_insurance = Insurance.new({:name => "Providence"})
+    test_doctor.update_insurance("Dr. Doom", test_insurance.id)
+    expect(test_doctor.insurance_id).to eq test_insurance.id
+  end
+
+end
 

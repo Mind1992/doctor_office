@@ -50,4 +50,9 @@ class Doctor
     Doctor.all.detect { |doctor| doctor.name == name }
   end
 
+  def update_insurance(doctor_name, new_insurance_id)
+    found_id = Doctor.search_by_name(doctor_name)
+    DB.exec("UPDATE doctors SET insurance_id = #{new_insurance_id} WHERE id = #{found_id};")
+    self.insurance_id = new_insurance_id
+  end
 end

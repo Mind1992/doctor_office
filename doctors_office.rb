@@ -24,6 +24,7 @@ def main_menu
     puts "11: count patients for a specific doctor"
     puts "12: set an appointment"
     puts "13: sum a doctor's billing"
+    puts "14: get patient's doctor, appointment, charge"
     puts "15: exit"
     input = gets.chomp
     case input
@@ -40,6 +41,7 @@ def main_menu
       when '11' then count_patients
       when '12' then set_appointment
       when '13' then sum_billing
+      when '14' then search_patient
       when '15' then exit
     end
   end
@@ -188,6 +190,11 @@ def sum_billing
   p "To: "; to = gets.chomp
   sum = Doctor.sum(doctor_name, from, to)
   puts sum
-
 end
+
+def search_patient
+  puts "Enter patient name"; patient_name = gets.chomp
+  result = Patient.search(patient_name)
+  puts result
+  end
 main_menu
